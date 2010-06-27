@@ -1,10 +1,10 @@
 class Machine
-  attr_accessor :name, :info, :ports
+  attr_accessor :name, :info, :ports, :snapshots
 
   def refresh
-    info = `VBoxManage showvminfo '#{name}'`
+    vminfo = `VBoxManage showvminfo '#{name}'`
     re = /^\s*([^:]+?)\s*:\s*(.*?)\s*$/
-    info = info.split("\n").select{|line|line=~re}
+    info = vminfo.split("\n").select{|line|line=~re}
     info = info.map do |line|
       line =~ re
       {$1 => $2}
@@ -14,6 +14,11 @@ class Machine
     @ports = @info.keys.select{|k|k=~/NIC 1 Rule\(\d+\)/}.map do |rule|
       @info[rule] =~ /name = (\w+),.*host port = (\d+),.*guest port = (\d+)/
       {:name => $1, :host => $2.to_i, :guest => $3.to_i}
+    end
+    if(k=vminfo.index("Snapshots:"))
+      @snapshots = Snapshot.parse(vminfo[(k+11)..-1].split("\n"))
+    else
+      @snapshots=[]
     end
   end
 

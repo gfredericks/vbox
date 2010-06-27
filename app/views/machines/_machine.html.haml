@@ -1,4 +1,4 @@
-%div{:class=>"machine" + (machine.running? ? " running" : "")}
+%div{:id=>machine.name, :class=>"machine" + (machine.running? ? " running" : "")}
   %h1=machine.name
   -if(machine.running?)
     =link_to("Unplug",stop_machine_url(machine))
@@ -9,4 +9,6 @@
     -machine.ports.each do |port|
       %span{:style=>"font-weight:bold;"}=port[:name]+":"
       =" #{port[:host]}&rarr;#{port[:guest]}"
-      
+  %h2 Snapshots
+  -machine.snapshots.each do |ss|
+    =render :partial=>"snapshots/snapshot", :locals=>{:snapshot=>ss}      

@@ -1,0 +1,2 @@
+class DrivesController < ApplicationController
+end

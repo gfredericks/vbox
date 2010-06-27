@@ -1,2 +1,8 @@
--@machines.each do |machine|
-  =render :partial=>"machines/machine", :locals=>{:machine=>machine}
+%div{:style=>"float:left;width:47%;"}
+  %h2 Machines
+  -@machines.each do |machine|
+    =render :partial=>"machines/machine", :locals=>{:machine=>machine}
+%div{:style=>"float:right;width:47%"}
+  %h2 Drives
+  -@drives.each do |drive|
+    =render :partial=>"drives/drive", :locals=>{:drive=>drive}

@@ -1,0 +1,4 @@
+.drive{:data=>{:machine=>drive.machine_name, :snapshot=>drive.snapshot_id}}
+  %h1=drive.uuid[0...6]
+  -drive.children.each do |dc|
+    =render :partial=>"drives/drive", :locals=>{:drive=>dc}

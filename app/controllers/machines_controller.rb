@@ -1,6 +1,7 @@
 class MachinesController < ApplicationController
   def index
     @machines = Machine.all
+    @drives = Drive.bases
   end
 
   def start

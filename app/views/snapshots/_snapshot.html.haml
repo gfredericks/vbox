@@ -1,0 +1,4 @@
+.snapshot{:id=>snapshot.uuid}
+  %h1=snapshot.name
+  -snapshot.children.each do |ss|
+    =render :partial=>"snapshots/snapshot", :locals=>{:snapshot=>ss}
