@@ -1,2 +1,8 @@
 %div{:class=>"machine" + (machine.running? ? " running" : "")}
-  .name=machine.name
+  %h1=machine.name
+  %h2 Ports
+  %ul
+    -machine.ports.each do |port|
+      %span{:style=>"font-weight:bold;"}=port[:name]+":"
+      =" #{port[:host]}&rarr;#{port[:guest]}"
+      

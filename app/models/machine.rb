@@ -1,5 +1,5 @@
 class Machine
-  attr_accessor :name, :info
+  attr_accessor :name, :info, :ports
   def initialize(name)
     @name=name
     refresh
@@ -15,6 +15,10 @@ class Machine
     end
     @info = info.inject({}){|u,v|u.merge(v)}
     @state = @info["State"]
+    @ports = @info.keys.select{|k|k=~/NIC 1 Rule\(\d+\)/}.map do |rule|
+      @info[rule] =~ /name = (\w+),.*host port = (\d+),.*guest port = (\d+)/
+      {:name => $1, :host => $2.to_i, :guest => $3.to_i}
+    end
   end
 
   def stop
