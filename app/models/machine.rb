@@ -1,9 +1,5 @@
 class Machine
   attr_accessor :name, :info, :ports
-  def initialize(name)
-    @name=name
-    refresh
-  end
 
   def refresh
     info = `VBoxManage showvminfo '#{name}'`
@@ -22,11 +18,18 @@ class Machine
   end
 
   def stop
-    :stub
+    return false unless(running?)
+    `VBoxManage controlvm #{name} poweroff`
+    true
   end
 
   def start
-    :stub
+    return false if(running?)
+    job = fork do
+      exec "VBoxHeadless -s #{name} --vrdp=off"
+    end
+    Process.detach(job)
+    true
   end
 
   def running?
@@ -36,5 +39,20 @@ class Machine
   def Machine.all
     all = `VBoxManage list vms`
     all.scan(/"[^"]+"/).map{|s|Machine.new(s[1...-1])}
+  end
+
+  def Machine.find(name)
+    Machine.all.select{|m|m.name==name}.first
+  end
+
+  def to_param
+    name
+  end
+
+  private
+
+  def initialize(name)
+    @name=name
+    refresh
   end
 end

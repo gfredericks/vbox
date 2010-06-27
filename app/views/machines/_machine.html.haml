@@ -1,5 +1,9 @@
 %div{:class=>"machine" + (machine.running? ? " running" : "")}
   %h1=machine.name
+  -if(machine.running?)
+    =link_to("Unplug",stop_machine_url(machine))
+  -else
+    =link_to("Start",start_machine_url(machine)) 
   %h2 Ports
   %ul
     -machine.ports.each do |port|
