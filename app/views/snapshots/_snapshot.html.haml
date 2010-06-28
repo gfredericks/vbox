@@ -1,8 +1,13 @@
 .snapshot{:id=>snapshot.uuid}
-  %h1=snapshot.name
   -unless(machine.running?)
-    -form_tag(restore_machine_snapshot_url(machine,snapshot)) do
-      =submit_tag("Restore")
+    .form_button
+      -form_tag(restore_machine_snapshot_url(machine,snapshot)) do
+        =submit_tag("Restore", :confirm=>"Are you sure? This will erase any unsnapshotted state.")
+    -if(snapshot.deletable?)
+      .form_button
+        -form_tag(machine_snapshot_url(machine,snapshot), :method=>:delete) do
+          =submit_tag("Delete", :confirm=>"Are you sure?")
+  %h1=snapshot.name
   -snapshot.children.each do |ss|
     =render :partial=>"snapshots/snapshot", :locals=>{:machine=>machine,:snapshot=>ss}
   -if(snapshot.current)

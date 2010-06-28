@@ -9,6 +9,17 @@ class SnapshotsController < ApplicationController
     redirect_to_index
   end
 
+  def destroy
+    machine = Machine.find(params[:machine_id])
+    snapshot = Snapshot.find(machine, params[:id])
+    if(machine and snapshot)
+      `VBoxManage snapshot #{machine.name} delete #{snapshot.uuid}`
+    else
+      flash[:notice] = "Cannot find snapshot with uuid=#{params[:id]}"
+    end
+    redirect_to_index
+  end
+
   def restore
     machine = Machine.find(params[:machine_id])
     snapshot = Snapshot.find(machine, params[:id])

@@ -25,6 +25,11 @@ class Snapshot
     parseit.call(lines)
   end
 
+  def deletable?
+    # This is virtualbox's rule
+    children.length < 2
+  end
+
   def Snapshot.find(machine,uuid)
     machine.refresh
     look_for = lambda do |snapshot|
