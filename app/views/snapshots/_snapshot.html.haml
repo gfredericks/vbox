@@ -1,7 +1,8 @@
 .snapshot{:id=>snapshot.uuid}
   %h1=snapshot.name
-  -form_tag(restore_machine_snapshot_url(machine,snapshot)) do
-    =submit_tag("Restore")
+  -unless(machine.running?)
+    -form_tag(restore_machine_snapshot_url(machine,snapshot)) do
+      =submit_tag("Restore")
   -snapshot.children.each do |ss|
     =render :partial=>"snapshots/snapshot", :locals=>{:machine=>machine,:snapshot=>ss}
   -if(snapshot.current)
