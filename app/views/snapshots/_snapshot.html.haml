@@ -1,4 +1,9 @@
 .snapshot{:id=>snapshot.uuid}
   %h1=snapshot.name
+  -form_tag(restore_machine_snapshot_url(machine,snapshot)) do
+    =submit_tag("Restore")
   -snapshot.children.each do |ss|
-    =render :partial=>"snapshots/snapshot", :locals=>{:snapshot=>ss}
+    =render :partial=>"snapshots/snapshot", :locals=>{:machine=>machine,:snapshot=>ss}
+  -if(snapshot.current)
+    %div{:style=>"font-weight:bold;float:left;border:11px double black;padding:5px;background:white;"} Current
+    %div{:style=>"clear:left;"}

@@ -1,4 +1,11 @@
 .drive{:data=>{:machine=>drive.machine_name, :snapshot=>drive.snapshot_id}}
-  %h1=drive.uuid[0...6]
+  %h1
+    =drive.uuid[0...6]
+    -if(drive.machine_name)
+      (#{drive.machine_name})
+      -if(drive.snapshot_id)
+        ="--#{drive.snapshot_id[0...8]}"
+      -else
+        *
   -drive.children.each do |dc|
     =render :partial=>"drives/drive", :locals=>{:drive=>dc}
