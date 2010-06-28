@@ -1,0 +1,8 @@
+h1. VBox
+
+Vbox is a web-based front-end for management of VirtualBox on a headless server.
+
+I've only just started making it, and for the moment I'm only concerned with the
+features that I personally want. I'd be happy for others to contribute.
+
+It's written in Rails.
