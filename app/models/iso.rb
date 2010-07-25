@@ -10,7 +10,7 @@ class ISO
   end
 
   def ISO.find(filename)
-    ISO.all.select{|iso|iso.filename==filename}
+    ISO.all.find{|iso|iso.filename==filename}
   end
 
   def filepath

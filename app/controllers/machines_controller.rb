@@ -8,19 +8,19 @@ class MachinesController < ApplicationController
   def start
     @machine = Machine.find(params[:id])
     @machine.start
-    redirect_to(machines_url)
+    redirect_to_index
   end
 
   def stop
     @machine = Machine.find(params[:id])
     @machine.stop
-    redirect_to(machines_url)
+    redirect_to_index
   end
 
   def create
     unless Machine.find(params[:name])
       Machine.create(params[:name])
     end
-    redirect_to machines_url
+    redirect_to_index
   end
 end
