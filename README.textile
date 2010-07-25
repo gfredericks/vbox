@@ -18,7 +18,5 @@ h3. Todo list for current goal
 
 Current goal is to be able to create a new vm from scratch. Missing features:
 
-# Connect VM to hard disk in GUI
-# Insert ISO
 # Port forwarding
 # Remote desktop for installation

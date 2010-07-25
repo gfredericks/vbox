@@ -42,6 +42,14 @@ class Machine
     @state =~ /^running/
   end
 
+  def create_port_connection(host_port, guest_port, name)
+    `VBoxManage modifyvm #{@uuid} --natpf1 "#{name},tcp,,#{host_port},,#{guest_port}"`
+  end
+
+  def destroy_port_connection(name)
+    `VBoxManage modifyvm #{@uuid} --natpf1 delete #{name.inspect}`
+  end
+
   def Machine.all
     all = `VBoxManage list vms`
     all.scan(/"[^"]+"/).map{|s|Machine.new(s[1...-1])}
@@ -52,10 +60,11 @@ class Machine
   end
 
   def Machine.create(name)
-    puts `VBoxManage createvm --name #{name.inspect} --register`
+    `VBoxManage createvm --name #{name.inspect} --register`
     m = Machine.find(name)
-    puts `VBoxManage storagectl #{m.uuid} --name 'IDE Controller' --controller PIIX4 --add ide`
-    puts `VBoxManage storagectl #{m.uuid} --name 'DVD' --add ide`
+    `VBoxManage storagectl #{m.uuid} --name 'IDE Controller' --controller PIIX4 --add ide`
+    `VBoxManage storagectl #{m.uuid} --name 'DVD' --add ide`
+    `VBoxManage modifyvm #{m.uuid} --boot1 dvd --boot2 disk --boot3 none --boot4 none`
   end
 
   def destroy
