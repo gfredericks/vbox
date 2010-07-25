@@ -1,8 +1,8 @@
 class Machine
-  attr_accessor :name, :info, :ports, :snapshots
+  attr_accessor :name, :info, :ports, :snapshots, :uuid
 
   def refresh
-    vminfo = `VBoxManage showvminfo '#{name}'`
+    vminfo = `VBoxManage showvminfo '#{@name}'`
     re = /^\s*([^:]+?)\s*:\s*(.*?)\s*$/
     info = vminfo.split("\n").select{|line|line=~re}
     info = info.map do |line|
@@ -10,6 +10,7 @@ class Machine
       {$1 => $2}
     end
     @info = info.inject({}){|u,v|u.merge(v)}
+    @uuid = @info["UUID"]
     @state = @info["State"]
     @ports = @info.keys.select{|k|k=~/NIC 1 Rule\(\d+\)/}.map do |rule|
       @info[rule] =~ /name = (\w+),.*host port = (\d+),.*guest port = (\d+)/
@@ -50,8 +51,22 @@ class Machine
     Machine.all.select{|m|m.name==name}.first
   end
 
+  def Machine.create(name)
+    puts `VBoxManage createvm --name #{name.inspect} --register`
+    m = Machine.find(name)
+    puts `VBoxManage storagectl #{m.uuid} --name 'IDE Controller' --controller PIIX4 --add ide`
+  end
+
+  def destroy
+    `VBoxManage unregistervm #{@uuid} --delete`
+  end
+
   def to_param
     name
+  end
+
+  def connect_drive(d)
+    `VBoxManage storageattach #{@uuid} --storagectl 'IDE Controller' --port 0 --device 0 --type hdd --medium #{d.uuid}`
   end
 
   private

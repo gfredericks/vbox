@@ -15,4 +15,11 @@ class MachinesController < ApplicationController
     @machine.stop
     redirect_to(machines_url)
   end
+
+  def create
+    unless Machine.find(params[:name])
+      Machine.create(params[:name])
+    end
+    redirect_to machines_url
+  end
 end

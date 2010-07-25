@@ -1,5 +1,13 @@
 %div{:id=>machine.name, :class=>"machine" + (machine.running? ? " running" : "")}
   %h1=machine.name
+  .details_holder
+    =link_to("Show details", '#', :onclick=>"$('details-#{machine.uuid}').toggle();return false;")
+    %div{:id=>"details-#{machine.uuid}", :style=>"display:none;"}
+      %table{:border=>"1"}
+        -machine.info.keys.sort.each do |k|
+          %tr
+            %td=k
+            %td=machine.info[k]
   -if(machine.running?)
     -form_tag(stop_machine_url(machine)) do
       =submit_tag("Unplug")
