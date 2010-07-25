@@ -55,6 +55,7 @@ class Machine
     puts `VBoxManage createvm --name #{name.inspect} --register`
     m = Machine.find(name)
     puts `VBoxManage storagectl #{m.uuid} --name 'IDE Controller' --controller PIIX4 --add ide`
+    puts `VBoxManage storagectl #{m.uuid} --name 'DVD' --add ide`
   end
 
   def destroy
@@ -67,6 +68,10 @@ class Machine
 
   def connect_drive(d)
     `VBoxManage storageattach #{@uuid} --storagectl 'IDE Controller' --port 0 --device 0 --type hdd --medium #{d.uuid}`
+  end
+
+  def disconnect_drive
+    `VBoxManage storageattach #{@uuid} --storagectl 'IDE Controller' --port 0 --device 0 --forceunmount --medium none`
   end
 
   private

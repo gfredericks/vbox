@@ -16,6 +16,11 @@ class Drive
     Drive.all.select{|d|d.parent=="base"}
   end
 
+  def Drive.create(name,size=20000)
+    #`VBoxManage createhd --filename /home/#{ENV['User']}/.VirtualBox/HardDisks/#{name}.vdi --size #{size} --variant Standard --remember`
+    `VBoxManage createhd --filename #{name}.vdi --size #{size} --remember`
+  end
+
   def children
     Drive.all.select{|d|d.parent == @uuid}
   end

@@ -41,6 +41,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources(:machines, :member=>{:start=>:post, :stop=>:post}) do |machine|
     machine.resources(:snapshots, :member=>{:restore=>:post})
+    machine.resources(:port_connections)
   end
+  map.resources(:drives)
   map.root :controller=>"machines"
 end
