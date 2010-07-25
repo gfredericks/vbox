@@ -39,9 +39,9 @@ ActionController::Routing::Routes.draw do |map|
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
 
-  map.resources(:machines, :member=>{:start=>:post, :stop=>:post}) do |machine|
+  map.resources(:machines, :member=>{:start=>:post, :stop=>:post}, :has_one=>[:dvd, :drive], :has_many=>[:port_connections]) do |machine|
     machine.resources(:snapshots, :member=>{:restore=>:post})
-    machine.resources(:port_connections)
+    #machine.resources(:port_connections)
   end
   map.resources(:drives)
   map.root :controller=>"machines"

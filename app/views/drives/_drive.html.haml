@@ -1,4 +1,4 @@
-.drive{:data=>{:machine=>drive.machine_name, :snapshot=>drive.snapshot_id}}
+.drive{:data=>{:uuid=>drive.uuid, :machine=>drive.machine_name, :snapshot=>drive.snapshot_id}}
   %h1
     =drive.uuid[0...6]
     -if(drive.machine_name)

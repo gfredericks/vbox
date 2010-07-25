@@ -1,13 +1,3 @@
-.machine
-  :background #EAA
-  .name
-    :font-size large
-    :font-weight bold
-    :font-family sans-serif
-.drive
-  :background #AAE
-.snapshot
-  :background #EEA
 .machine, .drive, .snapshot
   :margin 5px
   :padding 5px
@@ -24,6 +14,18 @@
     :font-size large
     :margin-top 5px
     :margin-bottom 5px
+.machine
+  :background #EAA
+  .name
+    :font-size large
+    :font-weight bold
+    :font-family sans-serif
+  &.hover
+    :border-style double
+.drive
+  :background #AAE
+.snapshot
+  :background #EEA
 .highlight
   :border-style dashed
 .running

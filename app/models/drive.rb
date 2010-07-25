@@ -12,6 +12,10 @@ class Drive
     end
   end
 
+  def Drive.find(uuid)
+    Drive.all.find{|d|d.uuid==uuid}
+  end
+
   def Drive.bases
     Drive.all.select{|d|d.parent=="base"}
   end

@@ -74,6 +74,10 @@ class Machine
     `VBoxManage storageattach #{@uuid} --storagectl 'IDE Controller' --port 0 --device 0 --forceunmount --medium none`
   end
 
+  def connect_iso(iso)
+    `VBoxManage storageattach #{@uuid} --storagectl 'DVD' --port 0 --device 0 --forceunmount --type dvddrive --medium "#{iso.filepath}"`
+  end
+
   private
 
   def initialize(name)

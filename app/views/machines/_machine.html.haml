@@ -25,4 +25,8 @@
       =text_field_tag :name
       =submit_tag("Take")
   -machine.snapshots.each do |ss|
-    =render :partial=>"snapshots/snapshot", :locals=>{:snapshot=>ss,:machine=>machine}      
+    =render :partial=>"snapshots/snapshot", :locals=>{:snapshot=>ss,:machine=>machine}
+  -form_tag(machine_drive_path(machine), :method=>:post, :class=>"drive_form") do
+    =hidden_field_tag :uuid
+  -form_tag(machine_dvd_path(machine), :method=>:post, :class=>"dvd_form") do
+    =hidden_field_tag :name
