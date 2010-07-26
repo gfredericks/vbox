@@ -13,6 +13,8 @@
       =submit_tag("Unplug")
   -else
     -form_tag(start_machine_url(machine)) do
+      VRDP port:
+      =text_field_tag(:vrdp_port)
       =submit_tag("Start") 
   %h2 Ports
   =link_to "Add new port connection", "#", :onclick=>"Effect.BlindDown('pc-#{machine.uuid}');return false;"  

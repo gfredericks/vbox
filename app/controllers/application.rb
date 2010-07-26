@@ -16,4 +16,12 @@ class ApplicationController < ActionController::Base
   def redirect_to_index
     redirect_to(machines_url)
   end
+
+  def report(comm)
+    flash[:notice] ||= ""
+    flash[:notice] += "\n" if(flash[:notice].length > 0)
+    flash[:notice] += comm+":\n"
+    ss = `#{comm}`.split("\n")
+    flash[:notice] += ss.map{|line|"  |#{line}"}.join("\n")
+  end
 end

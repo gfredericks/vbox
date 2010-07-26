@@ -29,10 +29,14 @@ class Machine
     true
   end
 
-  def start
+  def start(vrdp_port=nil)
     return false if(running?)
     job = fork do
-      exec "VBoxHeadless -s #{name} --vrdp=off"
+      if(vrdp_port.to_i > 0)
+        exec "VBoxHeadless -s #{name} --vrdpport #{vrdp_port} --vrdp on"
+      else
+        exec "VBoxHeadless -s #{name} --vrdp=off"
+      end
     end
     Process.detach(job)
     true
@@ -63,7 +67,7 @@ class Machine
     `VBoxManage createvm --name #{name.inspect} --register`
     m = Machine.find(name)
     `VBoxManage storagectl #{m.uuid} --name 'IDE Controller' --controller PIIX4 --add ide`
-    `VBoxManage storagectl #{m.uuid} --name 'DVD' --add ide`
+    #`VBoxManage storagectl #{m.uuid} --name 'DVD' --add ide`
     `VBoxManage modifyvm #{m.uuid} --boot1 dvd --boot2 disk --boot3 none --boot4 none`
   end
 
@@ -84,7 +88,7 @@ class Machine
   end
 
   def connect_iso(iso)
-    `VBoxManage storageattach #{@uuid} --storagectl 'DVD' --port 0 --device 0 --forceunmount --type dvddrive --medium "#{iso.filepath}"`
+    `VBoxManage storageattach #{@uuid} --storagectl 'IDE Controller' --port 0 --device 1 --forceunmount --type dvddrive --medium "#{iso.filepath}"`
   end
 
   private

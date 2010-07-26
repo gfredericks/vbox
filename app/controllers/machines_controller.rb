@@ -7,7 +7,7 @@ class MachinesController < ApplicationController
 
   def start
     @machine = Machine.find(params[:id])
-    @machine.start
+    @machine.start(params[:vrdp_port])
     redirect_to_index
   end
 
