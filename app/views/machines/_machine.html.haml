@@ -16,6 +16,10 @@
       VRDP port:
       =text_field_tag(:vrdp_port)
       =submit_tag("Start") 
+    -if(machine.dvd)
+      -form_tag(machine_dvd_path(machine), :method=>:delete) do
+        ="DVD: #{machine.dvd.filename}"
+        =submit_tag "Eject"
   %h2 Ports
   =link_to "Add new port connection", "#", :onclick=>"Effect.BlindDown('pc-#{machine.uuid}');return false;"  
   %div{:id=>"pc-#{machine.uuid}", :style=>"display:none;"}

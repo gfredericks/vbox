@@ -1,5 +1,5 @@
 class Machine
-  attr_accessor :name, :info, :ports, :snapshots, :uuid
+  attr_accessor :name, :info, :ports, :snapshots, :uuid, :dvd
 
   def refresh
     vminfo = `VBoxManage showvminfo '#{@name}'`
@@ -15,6 +15,9 @@ class Machine
     @ports = @info.keys.select{|k|k=~/NIC 1 Rule\(\d+\)/}.map do |rule|
       @info[rule] =~ /name = (\w+),.*host port = (\d+),.*guest port = (\d+)/
       {:name => $1, :host => $2.to_i, :guest => $3.to_i}
+    end
+    if(dvd = @info['IDE Controller (0, 1)'])
+      @dvd = ISO.all.find{|iso|dvd[iso.filename]}
     end
     if(k=vminfo.index("Snapshots:"))
       @snapshots = Snapshot.parse(vminfo[(k+11)..-1].split("\n"))
@@ -88,6 +91,10 @@ class Machine
 
   def connect_iso(iso)
     `VBoxManage storageattach #{@uuid} --storagectl 'IDE Controller' --port 0 --device 1 --forceunmount --type dvddrive --medium "#{iso.filepath}"`
+  end
+
+  def eject_iso
+    `VBoxManage storageattach #{@uuid} --storagectl 'IDE Controller' --port 0 --device 1 --forceunmount --medium none`
   end
 
   private
