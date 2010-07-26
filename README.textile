@@ -13,10 +13,3 @@ h2. Immediately Planned Features
 * Cloning hard disks
 * Cloning machines
 * Distinguishing between the different disk types
-
-h3. Todo list for current goal
-
-Current goal is to be able to create a new vm from scratch. Missing features:
-
-# Port forwarding
-# Remote desktop for installation
