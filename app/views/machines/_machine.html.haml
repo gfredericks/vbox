@@ -20,6 +20,10 @@
       -form_tag(machine_dvd_path(machine), :method=>:delete) do
         ="DVD: #{machine.dvd.filename}"
         =submit_tag "Eject"
+    -if(machine.drive)
+      -form_tag(machine_drive_path(machine), :method=>:delete) do
+        ="Hard Disk: #{machine.drive.uuid}"
+        =submit_tag "Disconnect"
   %h2 Ports
   =link_to "Add new port connection", "#", :onclick=>"Effect.BlindDown('pc-#{machine.uuid}');return false;"  
   %div{:id=>"pc-#{machine.uuid}", :style=>"display:none;"}

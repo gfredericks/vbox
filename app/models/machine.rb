@@ -1,5 +1,5 @@
 class Machine
-  attr_accessor :name, :info, :ports, :snapshots, :uuid, :dvd
+  attr_accessor :name, :info, :ports, :snapshots, :uuid, :dvd, :drive
 
   def refresh
     vminfo = `VBoxManage showvminfo '#{@name}'`
@@ -18,6 +18,9 @@ class Machine
     end
     if(dvd = @info['IDE Controller (0, 1)'])
       @dvd = ISO.all.find{|iso|dvd[iso.filename]}
+    end
+    if(drive = @info['IDE Controller (0, 0)'])
+      @drive = Drive.all.find{|d|drive[d.uuid]}
     end
     if(k=vminfo.index("Snapshots:"))
       @snapshots = Snapshot.parse(vminfo[(k+11)..-1].split("\n"))
