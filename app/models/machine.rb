@@ -26,7 +26,6 @@ class Machine
   def stop
     return false unless(running?)
     `VBoxManage controlvm #{name} poweroff`
-    true
   end
 
   def start(vrdp_port=nil)
@@ -39,7 +38,7 @@ class Machine
       end
     end
     Process.detach(job)
-    true
+    ""
   end
 
   def running?
@@ -64,11 +63,11 @@ class Machine
   end
 
   def Machine.create(name)
-    `VBoxManage createvm --name #{name.inspect} --register`
+    s = `VBoxManage createvm --name #{name.inspect} --register`
     m = Machine.find(name)
-    `VBoxManage storagectl #{m.uuid} --name 'IDE Controller' --controller PIIX4 --add ide`
-    #`VBoxManage storagectl #{m.uuid} --name 'DVD' --add ide`
-    `VBoxManage modifyvm #{m.uuid} --boot1 dvd --boot2 disk --boot3 none --boot4 none`
+    s += `VBoxManage storagectl #{m.uuid} --name 'IDE Controller' --controller PIIX4 --add ide`
+    s += `VBoxManage modifyvm #{m.uuid} --nic1 nat --bridgeadapter1 eth0 --boot1 dvd --boot2 disk --boot3 none --boot4 none`
+    s
   end
 
   def destroy

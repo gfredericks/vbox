@@ -9,5 +9,5 @@
   %body
     %h1 VirtualBox Manager
     -if(flash[:notice])
-      %div#flash=flash[:notice]
+      %pre#flash=flash[:notice]
     =yield

@@ -7,19 +7,19 @@ class MachinesController < ApplicationController
 
   def start
     @machine = Machine.find(params[:id])
-    @machine.start(params[:vrdp_port])
+    report @machine.start(params[:vrdp_port])
     redirect_to_index
   end
 
   def stop
     @machine = Machine.find(params[:id])
-    @machine.stop
+    report @machine.stop
     redirect_to_index
   end
 
   def create
     unless Machine.find(params[:name])
-      Machine.create(params[:name])
+      report Machine.create(params[:name])
     end
     redirect_to_index
   end
