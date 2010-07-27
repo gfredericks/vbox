@@ -12,8 +12,8 @@ class MachinesController < ApplicationController
   end
 
   def stop
-    @machine = Machine.find(params[:id])
-    report @machine.stop
+    m = Machine.find(params[:id])
+    report m.stop
     redirect_to_index
   end
 
@@ -21,6 +21,12 @@ class MachinesController < ApplicationController
     unless Machine.find(params[:name])
       report Machine.create(params[:name])
     end
+    redirect_to_index
+  end
+
+  def destroy
+    m = Machine.find(params[:id])
+    report m.destroy
     redirect_to_index
   end
 end
