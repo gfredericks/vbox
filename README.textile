@@ -7,9 +7,19 @@ features that I personally want. I'd be happy for others to contribute.
 
 VBox is written in Rails.
 
-h2. Immediately Planned Features
+h2. Todo
 
-* Connecting/unconnecting hard disks to machines
-* Cloning hard disks
-* Cloning machines
-* Distinguishing between the different disk types
+h3. Functionality
+
+* Delete hard drives
+* Resize guest RAM
+* More comprehensive support for hardware (I'm having trouble deleting machines
+    that weren't created with the current code, cause they still have devices
+    attached [turned out to be the floppy drive])
+
+h3. View
+
+* "Are you sure?" boxes whenever doing irreversible things (delete, shutdown, etc)
+* No more dragging ISOs and drives -- sometimes VMs are off-screen
+* Make it less ugly
+* Show details about host disk usage
