@@ -1,13 +1,18 @@
 h1. VBox
 
-Vbox is a web-based front-end for management of VirtualBox on a headless server.
+Vbox is a web-app front-end for management of VirtualBox on a headless server.
 
 I've only just started making it, and for the moment I'm only concerned with the
 features that I personally want. I'd be happy for others to contribute.
 
-VBox is written in Rails.
+VBox is written in Ruby on Rails.
 
 h2. Todo
+
+h3. Security
+
+* Figure out how to insert VM names onto command line without risking 
+  command-injection
 
 h3. Functionality
 
