@@ -21,6 +21,8 @@ h3. Functionality
 * More comprehensive support for hardware (I'm having trouble deleting machines
     that weren't created with the current code, cause they still have devices
     attached [turned out to be the floppy drive])
+* Attach comments to VMs/Drives (this should be supported by the VirtualBox
+  CLI)
 
 h3. View
 
